@@ -1,0 +1,142 @@
+/* -- ตัวแปร CSS สำหรับสีและระยะห่าง (ปรับเปลี่ยนได้ตามต้องการ) -- */
+:root {
+    --menu-primary-color: #333;
+    --menu-secondary-color: #666;
+    --menu-price-color: #e44d26; /* สีส้มแดงสำหรับราคา */
+    --menu-bg-color: #f9f9f9;
+    --card-bg-color: #fff;
+    --card-border-color: #eee;
+    --card-padding: 1rem;
+    --gap-spacing: 1.5rem; /* ระยะห่างระหว่างคอลัมน์และแถว */
+    --hot-sale-badge-bg: #e74c3c; /* แดง */
+    --hot-sale-badge-text: #fff;
+}
+
+/* -- สไตล์สำหรับคอนเทนเนอร์หลักของเมนู -- */
+.menu-container {
+    max-width: 1200px; /* ความกว้างสูงสุดของเมนูทั้งหมด */
+    margin: 2rem auto; /* จัดกึ่งกลางและมีระยะห่างด้านบน-ล่าง */
+    padding: 0 var(--gap-spacing); /* ระยะห่างด้านข้าง */
+    background-color: var(--menu-bg-color);
+}
+
+/* -- สไตล์ Grid สำหรับรายการอาหาร -- */
+.food-menu-grid {
+    display: grid;
+    gap: var(--gap-spacing); /* ระยะห่างระหว่างรายการอาหาร */
+    padding: 1rem 0; /* ระยะห่างภายในคอนเทนเนอร์ */
+}
+
+/* -- การแสดงผลบน Mobile (เริ่มต้นที่ 2 คอลัมน์) -- */
+.food-menu-grid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* ปรับคอลัมน์อัตโนมัติ 2-3 คอลัมน์ */
+}
+
+/* -- การแสดงผลบน Tablet (2 คอลัมน์) -- */
+@media (min-width: 600px) {
+    .food-menu-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 คอลัมน์ */
+    }
+}
+
+/* -- การแสดงผลบน Desktop (3 คอลัมน์) -- */
+@media (min-width: 992px) {
+    .food-menu-grid {
+        grid-template-columns: repeat(3, 1fr); /* 3 คอลัมน์ */
+    }
+}
+
+
+/* -- สไตล์สำหรับรายการอาหารแต่ละชิ้น (Card) -- */
+.food-item {
+    background-color: var(--card-bg-color);
+    border: 1px solid var(--card-border-color);
+    border-radius: 8px;
+    overflow: hidden; /* ทำให้ภาพโค้งมนตามขอบของ card */
+    display: flex; /* ใช้ Flexbox เพื่อจัดเรียงรูปภาพและรายละเอียด */
+    flex-direction: column; /* วางเรียงจากบนลงล่าง */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); /* เงาเล็กน้อย */
+    transition: transform 0.2s ease-in-out; /* เพิ่ม animation ตอน hover */
+}
+
+.food-item:hover {
+    transform: translateY(-5px); /* ยกขึ้นเล็กน้อยเมื่อชี้เมาส์ */
+}
+
+/* -- สไตล์สำหรับส่วนรูปภาพ -- */
+.food-item__image-wrapper {
+    position: relative; /* สำหรับจัดตำแหน่งป้าย Hot Sale */
+    width: 100%;
+    padding-top: 100%; /* สร้างอัตราส่วน 1:1 (จัตุรัส) */
+    overflow: hidden;
+}
+
+.food-item__image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* ครอบคลุมพื้นที่โดยไม่บิดเบือนสัดส่วน */
+    display: block;
+}
+
+/* -- สไตล์สำหรับป้าย Hot Sale -- */
+.food-item__badge {
+    position: absolute;
+    top: 10px; /* ระยะห่างจากด้านบน */
+    right: 10px; /* ระยะห่างจากด้านขวา */
+    background-color: var(--hot-sale-badge-bg);
+    color: var(--hot-sale-badge-text);
+    padding: 0.3em 0.8em;
+    border-radius: 50%; /* ทำให้เป็นวงกลม */
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    z-index: 10; /* ให้ป้ายอยู่ด้านบนสุด */
+    min-width: 40px; /* กำหนดขนาดขั้นต่ำเพื่อให้เป็นวงกลม */
+    height: 40px; /* กำหนดขนาดขั้นต่ำเพื่อให้เป็นวงกลม */
+    display: flex; /* จัดข้อความกึ่งกลาง */
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    display: none; /* ซ่อนไว้เป็นค่าเริ่มต้น */
+}
+
+.food-item__badge.is-hot-sale {
+    display: flex; /* แสดงเมื่อมี class 'is-hot-sale' */
+}
+
+/* -- สไตล์สำหรับรายละเอียดอาหาร (ชื่อและราคา) -- */
+.food-item__details {
+    padding: var(--card-padding);
+    display: flex;
+    flex-direction: column; /* วางชื่อและราคาเรียงกัน */
+    flex-grow: 1; /* ทำให้ส่วนนี้ขยายเต็มพื้นที่ที่เหลือใน card */
+    justify-content: space-between; /* จัดชื่อและราคาให้อยู่ด้านบนและด้านล่างสุดของส่วนนี้ */
+    min-height: 80px; /* กำหนดความสูงขั้นต่ำเพื่อความสอดคล้องกัน */
+}
+
+.food-item__name {
+    font-size: 1.15rem;
+    color: var(--menu-primary-color);
+    margin: 0 0 0.5rem 0; /* ระยะห่างจากราคา */
+    line-height: 1.3;
+    word-wrap: break-word; /* ให้ข้อความยาวๆ ตัดขึ้นบรรทัดใหม่ */
+}
+
+.food-item__price {
+    font-size: 1.25rem;
+    color: var(--menu-price-color);
+    font-weight: bold;
+    margin: auto 0 0 0; /* 'auto' margin-top จะดันราไปล่างสุด */
+    text-align: right; /* จัดราคาชิดขวา */
+}
+
+/* -- สไตล์ทั่วไป (หากต้องการ) -- */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background-color: #f0f2f5;
+    color: #333;
+}
